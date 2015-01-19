@@ -12,12 +12,6 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   config.vm.network "forwarded_port", guest: 80, host: 8080
 
-  # Allows the box to SSH into other services
-  # See https://developer.github.com/guides/using-ssh-agent-forwarding/
-  # See http://www.scottyewell.com/setting-vagrant-ssh-forwarding/
-  config.ssh.forward_agent = true
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
-
   # Install updates and core components
   config.vm.provision "shell", run: "once" do |shell|
     shell.path = "provisioning/bootstrap.sh"
