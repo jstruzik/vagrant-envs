@@ -1,4 +1,5 @@
 # Puppet configuration
+include git
 
 Package {
     # Fix for deprecation notice with Yum
@@ -29,9 +30,16 @@ service { $php_application_service:
 }
 
 # Nginx
+$nginx_app_directory = '/vagrant/'
+
 class { 'nginx': }
+
+# Ensure that a folder for the app exists
+file { [$nginx_app_directory]:
+    ensure => "directory"
+}
 
 # Nginx virtual hosts
 nginx::resource::vhost { 'app.dev':
-    www_root => '/vagrant/',
+    www_root => $nginx_app_directory,
 }

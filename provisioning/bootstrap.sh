@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 
 ##############################
+## Variables                ##
+##############################
+
+# The user's SSH key
+RUBY_VERSION=2.0.0
+
+##############################
 ## Base OS-level operations ##
 ##############################
+
+echo "Updating and install core packages"
 
 # Update core packages via Yum
 yum -y update
@@ -10,18 +19,22 @@ yum -y update
 # Install `yum-utils`
 yum -y install yum-utils
 
+# Get RVM
+echo "Installing Ruby Version Manager"
+curl -sSL https://get.rvm.io | bash -s $1
 
+source /home/vagrant/.rvm/scripts/rvm
 
-####################
-## Puppet Install ##
-####################
+# Install and set the default version of Ruby
+rvm use --install --default $RUBY_VERSION
 
-# Download and enable the Puppet Labs repo
-rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
+# Setup Puppet
+echo "Installing Puppet dependencies"
+gem install bundler
 
-# Install puppet via Yum
-yum -y install puppet
+(cd /vagrant/provisioning && exec bundle install)
 
+#(cd /vagrant/provisioning/puppet && exec librarian-puppet install)
 
 
 #############################

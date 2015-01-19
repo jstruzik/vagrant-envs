@@ -1,3 +1,1 @@
-# Rican7's Vagrant Environments
-
-A collection of my personal Vagrant environment setups
+A fork of https://github.com/Rican7/vagrant-envs
