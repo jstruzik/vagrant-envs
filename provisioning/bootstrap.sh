@@ -23,7 +23,7 @@ yum -y install yum-utils
 echo "Installing Ruby Version Manager"
 curl -sSL https://get.rvm.io | bash -s $1
 
-source /home/vagrant/.rvm/scripts/rvm
+source /etc/profile.d/rvm.sh
 
 # Install and set the default version of Ruby
 rvm use --install --default $RUBY_VERSION
