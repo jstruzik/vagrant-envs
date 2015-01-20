@@ -8,7 +8,7 @@ Package {
 }
 
 $php_application_service = 'php-fpm'
-$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp']
+$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp', 'gd', 'openssl']
 
 # PHP install configuration
 class { 'php':
@@ -30,7 +30,7 @@ service { $php_application_service:
 }
 
 # Nginx
-$nginx_app_directory = '/vagrant/'
+$nginx_app_directory = '/vagrant/app'
 
 class { 'nginx': }
 
@@ -41,5 +41,15 @@ file { [$nginx_app_directory]:
 
 # Nginx virtual hosts
 nginx::resource::vhost { 'app.dev':
+    index_files => ['index', 'index.html', 'index.htm', 'index.php'],
     www_root => $nginx_app_directory,
+}
+
+nginx::resource::location { 'app.dev':
+    vhost => 'app.dev',
+    location => '~ \.php$',
+    location_cfg_append => {
+        fastcgi_intercept_errors => 'on',
+        fastcgi_split_path_info => '^(.+\.php)(/.+)$',
+      }    
 }
