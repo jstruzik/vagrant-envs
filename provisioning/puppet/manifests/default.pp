@@ -30,7 +30,7 @@ service { $php_application_service:
 }
 
 # Nginx
-$nginx_app_directory = '/vagrant/app'
+$nginx_app_directory = '/vagrant/app/'
 
 class { 'nginx':
     log_format => 
@@ -51,31 +51,34 @@ file { [$nginx_app_directory]:
 # Nginx virtual hosts
 nginx::resource::vhost { 'app.dev':
     index_files => ['index', 'index.html', 'index.htm', 'index.php'],
-    server_name => 'localhost',
+    server_name => ['localhost'],
     www_root => $nginx_app_directory,
+    use_default_location => false
 }
 
-nginx::resource::location { 'app.dev.php':
+nginx::resource::location { 'app.dev.php_root':
     ensure => present,
     vhost => 'app.dev',
+    www_root => $nginx_app_directory,
     location => '/',
     rewrite_rules => [
-        {'/(v[0-9\.]+)/?(.*)/?$' => '/index.php?$args last'}
+        '/(v[0-9\.]+)/?(.*)/?$ /index.php?$args last'
     ],
     try_files => [
         '/index.php?$args', '/index', '/index.html', '/index.htm'
     ]
 }
 
-nginx::resource::location { 'app.dev.php':
+nginx::resource::location { 'app.dev.php_file':
     ensure => present,
     vhost => 'app.dev',
+    www_root => $nginx_app_directory,
     location => '~ \.php$',
     location_cfg_append => {
         fastcgi_index => 'index.php',
-        fastcgi_param => '$document_root$fastcgi_script_name',
+        fastcgi_param => 'SCRIPT_FILE $document_root$fastcgi_script_name',
         fastcgi_intercept_errors => 'on',
         fastcgi_split_path_info => '^(.+\.php)(/.+)$',
-        fastcgi_pass => 127.0.0.1:9000
+        fastcgi_pass => '127.0.0.1:9000'
       }    
 }
