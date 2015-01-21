@@ -59,9 +59,11 @@ nginx::resource::location { 'app.dev.php':
     ensure => present,
     vhost => 'app.dev',
     location => '/',
-    rewrite => '/(v[0-9\.]+)/?(.*)/?$ /index.php?$args last',
+    rewrite_rules => [
+        {'/(v[0-9\.]+)/?(.*)/?$' => '/index.php?$args last'}
+    ],
     try_files => [
-        /index.php?$args /index /index.html /index.htm /public/index /public/index.html /public/index.htm /public/index.php?$args
+        '/index.php?$args', '/index', '/index.html', '/index.htm'
     ]
 }
 
