@@ -82,3 +82,24 @@ nginx::resource::location { 'app.dev.php_file':
         fastcgi_pass => '127.0.0.1:9000'
       }    
 }
+
+$override_options = {
+  'mysqld' => {
+    'default-time-zone' => '+00:00',
+    'sql_mode' => 'ALLOW_INVALID_DATES'
+  }
+}
+
+class { '::mysql::server':
+  root_password    => 'root',
+  override_options => $override_options
+}
+
+class { 'redis':
+  version => '2.8',
+}
+
+class {'::mongodb::server':
+  port    => 27018,
+  verbose => true,
+}

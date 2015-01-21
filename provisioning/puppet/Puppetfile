@@ -5,3 +5,6 @@ forge "https://forgeapi.puppetlabs.com"
 mod 'puppetlabs/git'
 mod 'example42-php', '2.0.x'
 mod 'jfryman-nginx'
+mod 'puppetlabs/mysql'
+mod 'thomasvandoren/redis'
+mod 'puppetlabs/mongodb'
