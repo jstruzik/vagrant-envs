@@ -95,9 +95,7 @@ class { '::mysql::server':
   override_options => $override_options
 }
 
-class { 'redis':
-  version => '2.8',
-}
+class { 'redis': }
 
 class {'::mongodb::server':
   port    => 27018,
