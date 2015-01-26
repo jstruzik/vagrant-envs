@@ -37,7 +37,7 @@ nginx::resource::location { 'app.dev.php_root':
     www_root => $nginx_app_directory,
     location => '/',
     try_files => [
-        '$uri/', '$uri', /index.php?$args'
+        '$uri/', '$uri', '/index.php?$args'
     ]
 }
 
@@ -46,8 +46,11 @@ nginx::resource::location { 'app.dev.php_file':
     vhost => 'app.dev',
     www_root => $nginx_app_directory,
     location => '~ \.php$',
-    include => ['fastcgi_params'],
+    try_files => [
+        '$uri = 404'
+    ]
     location_cfg_append => {
+        include => 'fastcgi_params'
         fastcgi_index => 'index.php',
         fastcgi_param => 'SCRIPT_FILENAME $document_root$fastcgi_script_name',
         fastcgi_intercept_errors => 'on',
