@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+###############
+## Variables ##
+###############
+
+# Path to our ruby profile script
+RUBY_PROFILE_SCRIPT_PATH="/etc/profile.d/ruby193.sh"
+
 ##############################
 ## Base OS-level operations ##
 ##############################
