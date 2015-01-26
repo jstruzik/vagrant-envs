@@ -1,5 +1,5 @@
 $php_application_service = 'php-fpm'
-$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp', 'gd', 'openssl', 'xdebug']
+$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp', 'gd', 'openssl', 'xdebug', 'pdo_mysql']
 
 # PHP install configuration
 class { 'php':
@@ -18,7 +18,7 @@ php::pecl::module { "mongo": }
 
 # PHP Tools
 exec { 'composer-install':
-    command => 'curl -s http://getcomposer.org/installer | php -- --install-dir=bin --filename=composer'
+    command => 'curl -s http://getcomposer.org/installer | php -- --install-dir=/bin'
 }
 
 # PHP custom configuration

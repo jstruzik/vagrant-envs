@@ -20,6 +20,7 @@ yum -y update
 yum -y install \
     yum-utils \
     scl-utils \
+    svn\
     gcc \
     openssl-devel
 

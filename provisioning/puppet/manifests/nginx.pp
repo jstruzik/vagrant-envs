@@ -48,9 +48,9 @@ nginx::resource::location { 'app.dev.php_file':
     location => '~ \.php$',
     try_files => [
         '$uri = 404'
-    ]
+    ],
     location_cfg_append => {
-        include => 'fastcgi_params'
+        include => 'fastcgi_params',
         fastcgi_index => 'index.php',
         fastcgi_param => 'SCRIPT_FILENAME $document_root$fastcgi_script_name',
         fastcgi_intercept_errors => 'on',
