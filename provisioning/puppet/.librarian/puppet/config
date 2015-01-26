@@ -1,4 +1,4 @@
 ---
 LIBRARIAN_PUPPET_DESTRUCTIVE: 'false'
 LIBRARIAN_PUPPET_USE_V1_API: '1'
-LIBRARIAN_PUPPET_TMP: "/home/vagrant/.tmp"
+LIBRARIAN_PUPPET_TMP: /home/vagrant/.tmp

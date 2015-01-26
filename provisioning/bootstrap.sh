@@ -5,7 +5,7 @@
 ##############################
 
 # The user's SSH key
-RUBY_VERSION=2.1.0
+RUBY_VERSION=1.9.3
 
 ##############################
 ## Base OS-level operations ##
@@ -27,15 +27,6 @@ source /etc/profile.d/rvm.sh
 
 # Install and set the default version of Ruby
 rvm use --install --default $RUBY_VERSION
-
-# Setup Puppet
-echo "Installing Puppet dependencies"
-gem install bundler
-
-(cd /vagrant/provisioning && exec bundle install)
-
-(cd /vagrant/provisioning/puppet && exec librarian-puppet install)
-
 
 #############################
 ## Additional Repo Install ##
