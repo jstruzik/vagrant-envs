@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
 ##############################
-## Variables                ##
-##############################
-
-# The user's SSH key
-RUBY_VERSION=1.9.3
-
-##############################
 ## Base OS-level operations ##
 ##############################
 
@@ -16,17 +9,30 @@ echo "Updating and install core packages"
 # Update core packages via Yum
 yum -y update
 
-# Install `yum-utils`
-yum -y install yum-utils
+# Install some packages
+yum -y install \
+    yum-utils \
+    scl-utils \
+    gcc \
+    openssl-devel
 
-# Get RVM
-echo "Installing Ruby Version Manager"
-curl -sSL https://get.rvm.io | bash -s $1
+##################
+## Ruby Install ##
+##################
 
-source /etc/profile.d/rvm.sh
+# Install the Ruby software-collections repo package
+# Download and enable the Ruby software-collections repo
+rpm -ivh https://www.softwarecollections.org/en/scls/rhscl/ruby193/epel-6-x86_64/download/rhscl-ruby193-epel-6-x86_64.noarch.rpm
 
-# Install and set the default version of Ruby
-rvm use --install --default $RUBY_VERSION
+# Install ruby via Yum
+yum -y install ruby193-ruby ruby193-ruby-devel
+
+# Set the new ruby version as the default for all users
+echo "source /opt/rh/ruby193/enable" > $RUBY_PROFILE_SCRIPT_PATH
+echo 'export PATH="/opt/rh/ruby193/root/usr/local/bin:$PATH"' >> $RUBY_PROFILE_SCRIPT_PATH
+
+# Source our new profile
+source $RUBY_PROFILE_SCRIPT_PATH
 
 #############################
 ## Additional Repo Install ##
@@ -40,5 +46,3 @@ rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 
 # Enable the Remi base "remi" repo to be queried by default
 yum-config-manager --enable remi
-#yum-config-manager --enable remi-php55 # PHP 5.5
-#yum-config-manager --enable remi-php56 # PHP 5.6

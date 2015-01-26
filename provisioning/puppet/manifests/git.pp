@@ -1,0 +1,2 @@
+# Git setup
+class { 'git':}

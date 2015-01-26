@@ -21,14 +21,14 @@ Vagrant.configure(2) do |config|
 
   # Install puppet/ruby dependencies
   config.vm.provision "shell", privileged: "false", run: "once" do |shell|
-    shell.path = "provisioning/rb_dependencies.sh"
+    shell.path = "provisioning/pp_dependencies.sh"
   end
 
   # Provision using Puppet
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "provisioning/puppet/manifests"
     puppet.module_path = "provisioning/puppet/modules"
-    puppet.manifest_file  = "default.pp"
+    puppet.manifest_file  = ""
     puppet.options = ['--verbose']
   end
 end
