@@ -1,7 +1,11 @@
 Vagrant.configure(2) do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+
+  # If our host OS is windows, ensure that the vagrant-vbguest plugin is installed for mounting
+  if Kernel.is_windows?
+    unless Vagrant.has_plugin?("vagrant-vbguest")
+      raise 'vagrant-vbguest is not installed! Use "vagrant plugin install vagrant-vbguest" to install!'
+    end
+  end
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
@@ -12,7 +16,7 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   config.vm.network "forwarded_port", guest: 80, host: 8080
 
-  config.vm.synced_folder "./", "/vagrant", id: "vagrant-root", owner: "vagrant", group: "vagrant", :mount_options => ["dmode=777","fmode=666"]
+  config.vm.synced_folder "./", "/vagrant", :id => "vagrant-root", :owner => "vagrant", :group => "vagrant", :mount_options => ["dmode=775","fmode=775"]
 
   # Install updates and core components
   config.vm.provision "shell", run: "once" do |shell|
@@ -31,4 +35,11 @@ Vagrant.configure(2) do |config|
     puppet.manifest_file  = ""
     puppet.options = ['--verbose']
   end
+end
+
+# Check if the host OS is windows. Thanks to http://stackoverflow.com/a/18452093
+def Kernel.is_windows?
+    # Detect if we are running on Windows
+    processor, platform, *rest = RUBY_PLATFORM.split("-")
+    platform == 'mingw32'
 end
