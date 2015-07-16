@@ -57,3 +57,5 @@ rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 
 # Enable the Remi base "remi" repo to be queried by default
 yum-config-manager --enable remi
+
+setenforce 1

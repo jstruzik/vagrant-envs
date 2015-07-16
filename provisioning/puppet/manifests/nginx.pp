@@ -1,5 +1,5 @@
 # Nginx
-$nginx_app_directory = '/vagrant/app'
+$nginx_app_directory = '/srv/www'
 $nginx_user = 'vagrant'
 
 # Nginx core configuration

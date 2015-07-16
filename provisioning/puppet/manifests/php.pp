@@ -1,5 +1,5 @@
 $php_application_service = 'php-fpm'
-$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp', 'gd', 'openssl', 'xdebug', 'pdo_mysql']
+$php_modules = ['opcache', 'pdo', 'pgsql', 'mbstring', 'mcrypt', 'bcmath', 'gmp', 'gd', 'openssl', 'xdebug', 'pdo_mysql', 'soap']
 
 # PHP install configuration
 class { 'php':
@@ -14,7 +14,9 @@ class { 'php':
 # PHP modules
 php::module { $php_modules: }
 
-php::pecl::module { "mongo": }
+php::pecl::module { "mongo-1.5.8":
+    use_package     => 'false',
+}
 
 # PHP Tools
 exec { 'composer-install':
